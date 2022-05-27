@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2022-05-27T12:22:20Z</date>
+    <groups>
+        <group>
+            <name>Equipamentos: Delta</name>
+        </group>
+        <group>
+            <name>Equipamentos: Retificadores</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Retificador - UPS Delta</template>
+            <name>Retificador - UPS Delta</name>
+            <templates>
+                <template>
+                    <name>Modulo para verificacao ICMP _ping_ - Simples</name>
+                </template>
+            </templates>
+            <groups>
+                <group>
+                    <name>Equipamentos: Delta</name>
+                </group>
+                <group>
+                    <name>Equipamentos: Retificadores</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Consumo Entrada</name>
+                </application>
+                <application>
+                    <name>Consumo Saída</name>
+                </application>
+                <application>
+                    <name>Corrente Ah</name>
+                </application>
+                <application>
+                    <name>Frequência</name>
+                </application>
+                <application>
+                    <name>Informações</name>
+                </application>
+                <application>
+                    <name>Porcentagem da Bateria</name>
+                </application>
+                <application>
+                    <name>Voltagem de Entrada</name>
+                </application>
+                <application>
+                    <name>Voltagem de Saída</name>
+                </application>
+                <application>
+                    <name>Voltagem Saída Retificadora (AC/DC) - Banco de Baterias</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>Corrente da Bateria (dcBatteryCurrent)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.3.3.0</snmp_oid>
+                    <key>dcBatteryCurrent</key>
+                    <value_type>FLOAT</value_type>
+                    <units>A</units>
+                    <applications>
+                        <application>
+                            <name>Corrente Ah</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Temperatura da Bateria (dcBatteryTemperature)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.3.4.0</snmp_oid>
+                    <key>dcBatteryTemperature</key>
+                    <units>ºC</units>
+                    <applications>
+                        <application>
+                            <name>Voltagem Saída Retificadora (AC/DC) - Banco de Baterias</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>0.1</params>
+                        </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <params>6h</params>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <expression>{avg(5m)}&gt; {$TEMP_CRIT:&quot;&quot;}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{avg(5m)}&lt; {$TEMP_CRIT:&quot;&quot;}-3</recovery_expression>
+                            <name>Temperatura da Bateria acima do limite de aviso: &gt; {$TEMP_WARN:&quot;&quot;}</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{avg(5m)}&gt; {$TEMP_WARN:&quot;&quot;}</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{avg(5m)}&lt; {$TEMP_WARN:&quot;&quot;}</recovery_expression>
+                            <name>Temperatura da Bateria acima do limite de aviso: &gt; {$TEMP_WARN:&quot;&quot;}</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Estado de Carga da Bateria ( dcChargeState)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.3.5.0</snmp_oid>
+                    <key>dcChargeState</key>
+                    <applications>
+                        <application>
+                            <name>Voltagem Saída Retificadora (AC/DC) - Banco de Baterias</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Limite da Corrente (dcCurrentLimit)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.3.6.0</snmp_oid>
+                    <key>dcCurrentLimit</key>
+                    <delay>2m</delay>
+                    <value_type>FLOAT</value_type>
+                    <applications>
+                        <application>
+                            <name>Corrente Ah</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Duração restante da bateria</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.5.2.1.2.0</snmp_oid>
+                    <key>dcDuration</key>
+                    <value_type>FLOAT</value_type>
+                    <applications>
+                        <application>
+                            <name>Voltagem Saída Retificadora (AC/DC) - Banco de Baterias</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Corrente de Carga (dcLoadCurrent)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.3.2.0</snmp_oid>
+                    <key>dcLoadCurrent</key>
+                    <value_type>FLOAT</value_type>
+                    <units>A</units>
+                    <applications>
+                        <application>
+                            <name>Corrente Ah</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>0.1</params>
+                        </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <params>6h</params>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>Número de Unidades Retificadoras (UR)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.4.1.0</snmp_oid>
+                    <key>dcNumberRectifiers</key>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <applications>
+                        <application>
+                            <name>Informações</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Número de Retificadores Operacionais (dcNumberRectifiersFailure)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.4.2.0</snmp_oid>
+                    <key>dcNumberRectifiersFailure</key>
+                    <applications>
+                        <application>
+                            <name>Informações</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>Delta UPS  (Número de Retificadores Operacionais)</name>
+                    </valuemap>
+                    <triggers>
+                        <trigger>
+                            <expression>{last(#5)}=1</expression>
+                            <name>Alarme Falha UR {HOST.NAME}.</name>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{last(#5)}=1</expression>
+                            <name>Falha na Unidade Retificadora {HOST.NAME}. {ITEM.VALUE}</name>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Número de Unidades Retificadoras Operacionais (UR)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.4.3.0</snmp_oid>
+                    <key>dcNumberRectifiersOkay</key>
+                    <applications>
+                        <application>
+                            <name>Informações</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last(#5)}=1</expression>
+                            <name>Falha em UR em {HOST.NAME}</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Corrente da Carga do Retificador (dcRectifierCurrent)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.3.7.0</snmp_oid>
+                    <key>dcRectifierCurrent</key>
+                    <units>A</units>
+                    <applications>
+                        <application>
+                            <name>Corrente Ah</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>0.1</params>
+                        </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <params>6h</params>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>Potencia de Carga (dcSystemPower)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.3.8.0</snmp_oid>
+                    <key>dcSystemPower</key>
+                    <value_type>FLOAT</value_type>
+                    <units>W</units>
+                    <applications>
+                        <application>
+                            <name>Corrente Ah</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Baterias Voltagem (dcSystemVoltage)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.3.1.0</snmp_oid>
+                    <key>dcSystemVoltage</key>
+                    <delay>2m</delay>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>Voltagem Saída Retificadora (AC/DC) - Banco de Baterias</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>0.01</params>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <expression>{last(#5)}&lt;=47</expression>
+                            <name>Voltagem das Baterias {HOST.NAME} em descarga (50%). {ITEM.VALUE}</name>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{last(#5)}&lt;=48.5</expression>
+                            <name>Voltagem das Baterias {HOST.NAME} em descarga (80%). {ITEM.VALUE}</name>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{last(#5)}&lt;=52</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{last(#5)}&gt;52</recovery_expression>
+                            <name>Voltagem das Baterias {HOST.NAME} em descarga. {ITEM.VALUE}</name>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Hora e Data</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.1.3.0</snmp_oid>
+                    <key>horaedata</key>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <applications>
+                        <application>
+                            <name>Informações</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>MAC da Retificadora</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.2.1.2.2.1.6.1</snmp_oid>
+                    <key>mac.retificadora</key>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <applications>
+                        <application>
+                            <name>Informações</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Nomenclatura do Equipamento</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.1.2.0</snmp_oid>
+                    <key>nomenclatura.delta</key>
+                    <delay>10m</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <applications>
+                        <application>
+                            <name>Informações</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Uptime</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.2.1.1.3.0</snmp_oid>
+                    <key>uptime.ret</key>
+                    <delay>5m</delay>
+                    <value_type>FLOAT</value_type>
+                    <units>uptime</units>
+                    <applications>
+                        <application>
+                            <name>Informações</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>0.01</params>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&lt;10m</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{last()}&gt;10m</recovery_expression>
+                            <name>Equipamento reiniciado | Último tempo de atividade {ITEM.VALUE}</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Versão do Retificador</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.20246.2.3.1.1.1.2.1.4.0</snmp_oid>
+                    <key>versao.retificador</key>
+                    <delay>1d</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <applications>
+                        <application>
+                            <name>Informações</name>
+                        </application>
+                    </applications>
+                </item>
+            </items>
+        </template>
+    </templates>
+    <value_maps>
+        <value_map>
+            <name>Delta UPS  (Número de Retificadores Operacionais)</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Operacional</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>Falha</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>Falha</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+    </value_maps>
+</zabbix_export>
