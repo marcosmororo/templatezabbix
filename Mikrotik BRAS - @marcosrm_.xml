@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2022-05-27T13:04:30Z</date>
+    <groups>
+        <group>
+            <name>Access Layer/Mikrotik/BRAS/Fibra</name>
+        </group>
+        <group>
+            <name>Access Layer/Mikrotik/BRAS/Rádio</name>
+        </group>
+        <group>
+            <name>Equipamentos: Mikrotik</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Mikrotik - BRAS</template>
+            <name>Mikrotik - BRAS</name>
+            <templates>
+                <template>
+                    <name>Modulo Descoberta de Interfaces via SNMPv2</name>
+                </template>
+                <template>
+                    <name>Modulo para verificacao basica - SNMPv2</name>
+                </template>
+            </templates>
+            <groups>
+                <group>
+                    <name>Access Layer/Mikrotik/BRAS/Fibra</name>
+                </group>
+                <group>
+                    <name>Access Layer/Mikrotik/BRAS/Rádio</name>
+                </group>
+                <group>
+                    <name>Equipamentos: Mikrotik</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>CPU</name>
+                </application>
+                <application>
+                    <name>Health</name>
+                </application>
+                <application>
+                    <name>Informações</name>
+                </application>
+                <application>
+                    <name>Memória</name>
+                </application>
+                <application>
+                    <name>Ping</name>
+                </application>
+                <application>
+                    <name>Storage</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>Clientes Conectados</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.9.9.150.1.1.1.0</snmp_oid>
+                    <key>clientes.mk</key>
+                    <delay>2m</delay>
+                    <history>100d</history>
+                    <trends>100d</trends>
+                    <units>Clientes</units>
+                    <applications>
+                        <application>
+                            <name>Informações</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{avg(1d)} - {avg(10m)} &gt; 50 or {avg(5m)} = 0</expression>
+                            <name>Clientes PPPoE abaixo da média | Atual: {ITEM.LASTVALUE}</name>
+                            <opdata>{ITEM.LASTVALUE1}</opdata>
+                            <priority>HIGH</priority>
+                            <description>Atual: {ITEM.LASTVALUE1}&#13;
+Referencia : {ITEM.LASTVALUE2}</description>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Espaco Total em Disco</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.2.1.25.2.3.1.5.131073</snmp_oid>
+                    <key>mikrotik.total.disk.space</key>
+                    <delay>30m</delay>
+                    <history>10d</history>
+                    <trends>90d</trends>
+                    <units>B</units>
+                    <applications>
+                        <application>
+                            <name>Informações</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>1024</params>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>Memoria Total</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.2.1.25.2.3.1.5.65536</snmp_oid>
+                    <key>mikrotik.total.memory</key>
+                    <delay>1h</delay>
+                    <history>10d</history>
+                    <trends>20d</trends>
+                    <units>B</units>
+                    <applications>
+                        <application>
+                            <name>Memória</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>1024</params>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>Espaco usado em Disco</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.2.1.25.2.3.1.6.131073</snmp_oid>
+                    <key>mikrotik.used.disk.space</key>
+                    <delay>10m</delay>
+                    <trends>734d</trends>
+                    <units>B</units>
+                    <applications>
+                        <application>
+                            <name>Informações</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>1024</params>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>Memoria em Uso</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.2.1.25.2.3.1.6.65536</snmp_oid>
+                    <key>mikrotik.used.memory</key>
+                    <delay>10m</delay>
+                    <history>10d</history>
+                    <trends>20d</trends>
+                    <units>B</units>
+                    <applications>
+                        <application>
+                            <name>Memória</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>1024</params>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>Versão</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.14988.1.1.7.7.0</snmp_oid>
+                    <key>mikrotik.version</key>
+                    <delay>1d</delay>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <applications>
+                        <application>
+                            <name>Informações</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Carga de CPU</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.2.1.25.3.3.1.2.1</snmp_oid>
+                    <key>mtxCPULoad</key>
+                    <delay>5m</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <units>%</units>
+                    <applications>
+                        <application>
+                            <name>CPU</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{avg(2)}&gt;=50</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{avg(2)}&lt;=49</recovery_expression>
+                            <name>{HOST.NAME} está com a alto processamento na CPU: {ITEM.VALUE}</name>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Modelo da Routerboard</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.2.1.1.1.0</snmp_oid>
+                    <key>mtxrHlModelo</key>
+                    <delay>1d</delay>
+                    <history>365d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <applications>
+                        <application>
+                            <name>Health</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Temperatura</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.14988.1.1.3.10.0</snmp_oid>
+                    <key>mtxrHlTemperature</key>
+                    <delay>30m</delay>
+                    <history>30d</history>
+                    <trends>60d</trends>
+                    <units>C</units>
+                    <applications>
+                        <application>
+                            <name>Health</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>0.1</params>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&gt;60</expression>
+                            <name>Temperatura Ambiente Alta &gt;60°</name>
+                            <priority>HIGH</priority>
+                            <description>Checa temperatura ambiente do Roteador. Se maior que 27, alarme será disparado.&#13;
+Nota. CCR tem uma margem de +10 para medir temperatura. Use item Calculado.</description>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                        <trigger>
+                            <expression>{last()}&lt;18</expression>
+                            <name>Temperatura Ambiente Baixa &lt;18°</name>
+                            <priority>WARNING</priority>
+                            <description>Checa temperatura ambiente do Roteador. Se menor que 20, alarme será disparado.&#13;
+Nota: CCR tem erro de medição de +10 no sensor.</description>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Voltagem</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>.1.3.6.1.4.1.14988.1.1.3.8.0</snmp_oid>
+                    <key>mtxrHlVoltage</key>
+                    <delay>60m</delay>
+                    <history>30d</history>
+                    <trends>60d</trends>
+                    <units>V</units>
+                    <applications>
+                        <application>
+                            <name>Health</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>0.1</params>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <expression>{last(#3)}&lt;22</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{last(#3)}&gt;23</recovery_expression>
+                            <name>{HOST.NAME} está com a voltagem abaixo do esperado {ITEM.VALUE}</name>
+                            <status>DISABLED</status>
+                            <priority>WARNING</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Número do Serial</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.14988.1.1.7.3.0</snmp_oid>
+                    <key>mtxrSerialNumber</key>
+                    <delay>1d</delay>
+                    <history>365d</history>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <applications>
+                        <application>
+                            <name>Informações</name>
+                        </application>
+                    </applications>
+                </item>
+            </items>
+            <macros>
+                <macro>
+                    <macro>{$IFCONTROL}</macro>
+                    <value>1</value>
+                </macro>
+                <macro>
+                    <macro>{$IF_ERRORS_WARN}</macro>
+                    <value>2</value>
+                </macro>
+                <macro>
+                    <macro>{$IF_UTIL_MAX}</macro>
+                    <value>80</value>
+                </macro>
+                <macro>
+                    <macro>{$SNMP_COMMUNITY}</macro>
+                    <value>sksnmp</value>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+    <triggers>
+        <trigger>
+            <expression>{Mikrotik - BRAS:icmpping.max(#10)}=0</expression>
+            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+            <recovery_expression>{Mikrotik - BRAS:icmpping.max(#10)}=1</recovery_expression>
+            <name>{ITEM.LASTVALUE}</name>
+            <priority>DISASTER</priority>
+            <manual_close>YES</manual_close>
+        </trigger>
+    </triggers>
+    <graphs>
+        <graph>
+            <name>Clientes Conectados no BRAS</name>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <color>FF4000</color>
+                    <item>
+                        <host>Mikrotik - BRAS</host>
+                        <key>clientes.mk</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>CPU Load</name>
+            <width>300</width>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <ymax_type_1>FIXED</ymax_type_1>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>CCCC00</color>
+                    <item>
+                        <host>Mikrotik - BRAS</host>
+                        <key>mtxCPULoad</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Temperatura Ambiente</name>
+            <width>300</width>
+            <yaxismin>10</yaxismin>
+            <yaxismax>50</yaxismax>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <ymax_type_1>FIXED</ymax_type_1>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>880088</color>
+                    <item>
+                        <host>Mikrotik - BRAS</host>
+                        <key>mtxrHlTemperature</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Uso de Memoria</name>
+            <width>300</width>
+            <show_work_period>NO</show_work_period>
+            <show_triggers>NO</show_triggers>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>00BB00</color>
+                    <calc_fnc>MAX</calc_fnc>
+                    <item>
+                        <host>Mikrotik - BRAS</host>
+                        <key>mikrotik.used.memory</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>BOLD_LINE</drawtype>
+                    <color>BB0000</color>
+                    <calc_fnc>MAX</calc_fnc>
+                    <type>GRAPH_SUM</type>
+                    <item>
+                        <host>Mikrotik - BRAS</host>
+                        <key>mikrotik.total.memory</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
+</zabbix_export>
